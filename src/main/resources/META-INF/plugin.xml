@@ -1,0 +1,125 @@
+<idea-plugin>
+    <id>io.github.umutcansu.Completor</id>
+
+    <name>Completor</name>
+
+    <idea-version since-build="223" until-build="242.*"/>
+
+    <vendor url="https://umutcansu.github.io/" email="umutcansu@gmail.com">Umut Cansu</vendor>
+
+    <description><![CDATA[
+    <html>
+    <body>
+    <h1>Dynamic Autocompletion from External Data Sources</h1>
+    <p>
+        Tired of manually typing keys, IDs, or constants defined in external XML or JSON files? <strong>Completor</strong> bridges that gap by bringing those values directly into your IDE's autocomplete suggestions.
+    </p>
+    <p>
+        Configure it once with your data file and powerful XPath / JSONPath queries, and get instant, context-aware suggestions across your project.
+    </p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li>✅ Provides autocomplete suggestions from any XML or JSON file.</li>
+        <li>✅ Powerful configuration via a dedicated settings panel.</li>
+        <li>✅ <strong>Simple Mode:</strong> Works out-of-the-box with conventional structures.</li>
+        <li>✅ <strong>Advanced Mode:</strong> Supports separate XPath / JSONPath queries for keys and values, allowing it to adapt to almost any file structure.</li>
+        <li>✅ Optionally insert the "value" instead of the "key" – perfect for localization or templates.</li>
+        <li>✅ A user-friendly file chooser for easy data source selection.</li>
+    </ul>
+
+    <hr>
+
+    <h2>Usage Examples</h2>
+
+    <h3>Example 1: Simple XML (Key in Attribute, Value in Text)</h3>
+    <p>If your XML file uses a common structure where the key is an attribute and the value is the element's text.</p>
+    <pre><code>
+&lt;!-- data.xml --&gt;
+&lt;definitions&gt;
+    &lt;constant id="const.pi"&gt;3.14159&lt;/constant&gt;
+    &lt;message id="msg.welcome"&gt;Welcome!&lt;/message&gt;
+&lt;/definitions&gt;
+    </code></pre>
+    <p><strong>Configuration:</strong></p>
+    <ul>
+        <li><strong>Key Path Query:</strong> <code>//constant[@id]|//message[@id]</code></li>
+        <li><strong>Value Path Query:</strong> (Leave blank - Completor will automatically use the element's text)</li>
+    </ul>
+
+    <h3>Example 2: Advanced XML (Dual Queries)</h3>
+    <p>When your keys and values are in completely different parts of the document.</p>
+    <pre><code>
+&lt;!-- config.xml --&gt;
+&lt;config&gt;
+    &lt;keys&gt;
+        &lt;key&gt;auth.token.google&lt;/key&gt;
+        &lt;key&gt;theme.name&lt;/key&gt;
+    &lt;/keys&gt;
+    &lt;values&gt;
+        &lt;value&gt;google-secret-token-123&lt;/value&gt;
+        &lt;value&gt;Darcula&lt;/value&gt;
+    &lt;/values&gt;
+&lt;/config&gt;
+    </code></pre>
+    <p><strong>Configuration:</strong></p>
+    <ul>
+        <li><strong>Key Path Query:</strong> <code>//keys/key/text()</code></li>
+        <li><strong>Value Path Query:</strong> <code>//values/value/text()</code></li>
+    </ul>
+
+    <h3>Example 3: Simple JSON (Conventional Key/Value Pairs)</h3>
+    <p>If your JSON contains an array of key-value objects.</p>
+    <pre><code>
+{
+  "feature_flags": [
+    { "key": "feature.new.dashboard", "value": "Enables the new UI" },
+    { "key": "feature.beta.access", "value": "Grants beta access" }
+  ]
+}
+    </code></pre>
+    <p><strong>Configuration:</strong></p>
+    <ul>
+        <li><strong>Key Path Query:</strong> <code>/feature_flags</code></li>
+        <li><strong>Value Path Query:</strong> (Leave blank - Completor will automatically look for "key" and "value" properties)</li>
+    </ul>
+
+    <h3>Example 4: Advanced JSON (Dual Queries)</h3>
+    <p>When your keys and values are in separate arrays or different parts of the JSON.</p>
+    <pre><code>
+{
+  "routes": {
+    "names": ["route.home", "route.profile"],
+    "paths": ["/home", "/user/profile"]
+  }
+}
+    </code></pre>
+    <p><strong>Configuration:</strong></p>
+    <ul>
+        <li><strong>Key Path Query:</strong> <code>$.routes.names[*]</code></li>
+        <li><strong>Value Path Query:</strong> <code>$.routes.paths[*]</code></li>
+    </ul>
+    </body>
+    </html>
+  ]]></description>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <completion.contributor
+                language="any"
+                implementationClass="io.github.umutcansu.completor.MyCompletionContributor"/>
+    </extensions>
+
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService
+                serviceImplementation="io.github.umutcansu.completor.settings.CompletorSettingsService"/>
+
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="io.github.umutcansu.completor.settings.CompletorSettingsConfigurable"
+                id="io.github.umutcansu.completor.settings.CompletorSettingsConfigurable"
+                displayName="Completor Settings"/>
+    </extensions>
+
+</idea-plugin>
