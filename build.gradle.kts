@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.umutcansu.completor"
-version = "1.0.1"
+version = "1.0.3"
 
 sourceSets {
     main {
@@ -39,9 +39,8 @@ intellijPlatform {
         }
 
         changeNotes.set("""
-            <h2>Version 1.0.1</h2>
+            <h2>Version 1.0.3</h2>
             <ul>
-                <li>Expanded IDE compatibility (IntelliJ 2022.3+ & Android Studio 2024+)</li>
                 <li>Deprecated TextFieldWithBrowseButton API fixed</li>
             </ul>
         """.trimIndent())
