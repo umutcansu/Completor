@@ -3,7 +3,7 @@
 
     <name>Completor</name>
 
-    <idea-version since-build="223" until-build="242.*"/>
+    <idea-version since-build="223"/>
 
     <vendor url="https://umutcansu.github.io/" email="umutcansu@gmail.com">Umut Cansu</vendor>
 

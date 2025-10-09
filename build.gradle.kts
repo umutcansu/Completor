@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.umutcansu.completor"
-version = "1.0-SNAPSHOT"
+version = "1.0.1"
 
 sourceSets {
     main {
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        androidStudio("2024.1.2.1")
+        intellijIdeaCommunity("2024.1")
         //create("IC", "2024.1")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
 
@@ -35,13 +35,15 @@ dependencies {
 intellijPlatform {
     pluginConfiguration {
         ideaVersion {
-            sinceBuild.set("241")
-
-            untilBuild.set("241.*")
+            sinceBuild.set("223")
         }
 
         changeNotes.set("""
-            Initial version
+            <h2>Version 1.0.1</h2>
+            <ul>
+                <li>Expanded IDE compatibility (IntelliJ 2022.3+ & Android Studio 2024+)</li>
+                <li>Deprecated TextFieldWithBrowseButton API fixed</li>
+            </ul>
         """.trimIndent())
     }
     publishing {

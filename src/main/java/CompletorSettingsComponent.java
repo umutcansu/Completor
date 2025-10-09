@@ -1,6 +1,7 @@
 
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.ui.TextComponentAccessor;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +32,21 @@ public class CompletorSettingsComponent {
         FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false);
         descriptor.setTitle("Select Data File");
         descriptor.setDescription("Select the JSON or XML file containing completion data.");
-        dataFilePathField.addBrowseFolderListener("Select Data File", null, null, descriptor);
+        descriptor.withFileFilter(file -> {
+            String ext = file.getExtension();
+            return "json".equalsIgnoreCase(ext) || "xml".equalsIgnoreCase(ext);
+        });
+
+        TextFieldWithBrowseButton.BrowseFolderActionListener<JTextField> listener =
+                new TextFieldWithBrowseButton.BrowseFolderActionListener<>(
+                        "Select Data File",
+                        "Choose the XML or JSON data file for Completor",
+                        dataFilePathField,
+                        null,
+                        descriptor,
+                        TextComponentAccessor.TEXT_FIELD_WHOLE_TEXT
+                );
+
 
         Map<String, String> commonExtensions = new LinkedHashMap<>();
         commonExtensions.put("kt", "Kotlin");
