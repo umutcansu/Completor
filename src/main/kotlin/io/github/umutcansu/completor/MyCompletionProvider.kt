@@ -6,6 +6,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.util.ProcessingContext
 import io.github.umutcansu.completor.settings.CompletorSettingsService
+import java.util.Locale.getDefault
 
 class MyCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(
@@ -17,7 +18,7 @@ class MyCompletionProvider : CompletionProvider<CompletionParameters>() {
         val targetExtensions = settings.targetFileExtensions
             .split(',').map { it.trim() }.filter { it.isNotEmpty() }.toSet()
 
-        val currentFileExtension = parameters.originalFile.virtualFile.extension?.toLowerCase()
+        val currentFileExtension = parameters.originalFile.virtualFile.extension?.lowercase(getDefault())
         if (currentFileExtension !in targetExtensions) return
 
         val suggestions: List<SuggestionItem> = DataManager.getSuggestions()

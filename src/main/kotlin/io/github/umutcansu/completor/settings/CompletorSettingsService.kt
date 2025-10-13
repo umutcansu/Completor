@@ -1,4 +1,3 @@
-// src/main/kotlin/io/github/umutcansu/completor/settings/CompletorSettingsService.kt
 package io.github.umutcansu.completor.settings
 
 import com.intellij.openapi.application.ApplicationManager

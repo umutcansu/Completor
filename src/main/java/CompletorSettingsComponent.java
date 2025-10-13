@@ -1,5 +1,9 @@
+import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
+import com.intellij.openapi.ui.TextComponentAccessor;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 
 import javax.swing.*;
@@ -28,24 +32,34 @@ public class CompletorSettingsComponent {
         filePathPanel.setLayout(new BorderLayout());
         filePathPanel.add(dataFilePathField, BorderLayout.CENTER);
 
-        FileChooserDescriptor descriptor = new FileChooserDescriptor(
-                true, false, false, false, false, false
-        );
-        descriptor.setTitle("Select Data File");
-        descriptor.setDescription("Select the JSON or XML file containing completion data.");
-        descriptor.withFileFilter(file -> {
-            String ext = file.getExtension();
-            return "json".equalsIgnoreCase(ext) || "xml".equalsIgnoreCase(ext);
-        });
 
-        TextBrowseFolderListener listener = new TextBrowseFolderListener(descriptor);
-        dataFilePathField.addActionListener(listener);
+
+        dataFilePathField.addActionListener(e -> {
+            Project p = null;
+            Project[] openProjects = ProjectManager.getInstance().getOpenProjects();
+            if (openProjects.length > 0) {
+                p = openProjects[0];
+            }
+            FileChooserDescriptor descriptor = new FileChooserDescriptor(true, false, false, false, false, false);
+            descriptor.setTitle("Select Data File");
+            descriptor.setDescription("Select the JSON or XML file containing completion data.");
+            descriptor.withFileFilter(file -> {
+                String ext = file.getExtension();
+                return "json".equalsIgnoreCase(ext) || "xml".equalsIgnoreCase(ext);
+            });
+
+            var virtualFile = FileChooser.chooseFile(descriptor, p, null);
+            if (virtualFile != null) {
+                dataFilePathField.setText(virtualFile.getPath());
+            }
+        });
 
         Map<String, String> commonExtensions = new LinkedHashMap<>();
         commonExtensions.put("kt", "Kotlin");
         commonExtensions.put("java", "Java");
         commonExtensions.put("xml", "XML");
         commonExtensions.put("json", "JSON");
+        commonExtensions.put("groovy", "Groovy");
 
         for (Map.Entry<String, String> entry : commonExtensions.entrySet()) {
             String extension = entry.getKey();

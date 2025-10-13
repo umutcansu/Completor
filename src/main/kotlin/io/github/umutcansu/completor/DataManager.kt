@@ -8,6 +8,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.NodeList
 import java.io.File
 import java.io.FileInputStream
+import java.util.Locale.getDefault
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.xpath.XPathConstants
 import javax.xml.xpath.XPathFactory
@@ -33,7 +34,7 @@ object DataManager {
         val suggestions = mutableListOf<SuggestionItem>()
         try {
             val file = File(filePath)
-            when (file.extension.toLowerCase()) {
+            when (file.extension.lowercase(getDefault())) {
                 "json" -> parseJson(file, keyQuery, valueQuery, suggestions)
                 "xml" -> parseXml(file, keyQuery, valueQuery, suggestions)
             }

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.umutcansu.completor"
-version = "1.0.3"
+version = "1.0.4"
 
 sourceSets {
     main {
@@ -25,6 +25,7 @@ dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2024.1")
         //create("IC", "2024.1")
+        //androidStudio("2025.1.3.7")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
 
         implementation("com.jayway.jsonpath:json-path:2.8.0")
@@ -42,6 +43,7 @@ intellijPlatform {
             <h2>Version 1.0.3</h2>
             <ul>
                 <li>Deprecated TextFieldWithBrowseButton API fixed</li>
+                <li>Add Groovy Type</li>
             </ul>
         """.trimIndent())
     }
