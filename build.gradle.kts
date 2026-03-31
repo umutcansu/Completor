@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.umutcansu.completor"
-version = "1.0.4"
+version = "1.0.5"
 
 sourceSets {
     main {
@@ -69,4 +69,3 @@ kotlin {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
-
